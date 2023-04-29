@@ -99,11 +99,26 @@ def filterdate(zk:ZK, users):
         :param users: list of users to filter by
         :return history: History of attendance objects
         """
+        while True:
+                try:
+                        startdate = input("Ingrese fecha inicial (dd/mm/yyyy):\n")
+                        startdate = datetime.strptime(startdate, '%d/%m/%Y')
+                except ValueError:
+                        print("Volver a ingresar fecha")
+                        continue
+                else:
+                        break
 
-        startdate = input("Ingrese fecha inicial (dd/mm/yyyy):\n")
-        startdate = datetime.strptime(startdate, '%d/%m/%Y')
-        enddate = input("Ingrese fecha final (dd/mm/yyyy):\n")
-        enddate = datetime.strptime(enddate, '%d/%m/%Y') + timedelta(days=1)
+        while True:
+                try:
+                        enddate = input("Ingrese fecha final (dd/mm/yyyy):\n")
+                        enddate = datetime.strptime(enddate, '%d/%m/%Y') + timedelta(days=1)
+                except ValueError:
+                        print("Volver a ingresar fecha")
+                        continue
+                else:
+                        break
+
 
         #startdate = datetime.strptime("24/04/2023", '%d/%m/%Y')
         #enddate = datetime.strptime("28/04/2023", '%d/%m/%Y')  + timedelta(days=1)
