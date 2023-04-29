@@ -73,7 +73,7 @@ def configfile(pathFile):
         config.read(pathFile)
         return config
 
-def filtergroup(userList, config):
+def getgroupandpay(userList, config):
         """
         :param userList: List of users
         :return users:
@@ -84,11 +84,12 @@ def filtergroup(userList, config):
         group = int(input())
         print("Grupo escogido:\t" + str(groups[group]))
         users = config.get('Usuarios', str(groups[group]))
+        payment = config.get('Pagos', str(groups[group]))
         users = [int(i) for i in users.split(',')]
         names = [userList[i] for i in users]
         print("Usuarios ID:\t" + str(users))
         print("Nombres:\t" + str(names))
-        return users
+        return users, payment
 
 
 
@@ -146,10 +147,11 @@ def attendance2dict(history):
                                         employees[i][date]['Hours'] = float(hours.seconds / 3600)
         return employees
 
-def countdays(employees):
+def countdays(employees, payment):
         """
         Count days worked and error days
         :param employees: dictionary of employees punch days
+        :param payment: salary per day
         :return worked: [employees][days, errors]
         """
         # First pass for counting days
@@ -165,7 +167,7 @@ def countdays(employees):
                             days += 0.5
                     else:
                         errors += 1
-                worked[employee] = [days, errors]
+                worked[employee] = [days, errors, float(int(days)*int(payment))]
         #print(worked)
         return worked
 
@@ -194,8 +196,8 @@ def createpdf(employees, worked, userList):
         for employee, date in employees.items():
 
                 pdf.set_font("Arial", style='BIU', size=11)
-                header = userList[int(employee.split()[0])] + " trabajó " + str(worked[employee][0]) + \
-                         " días ( " + str(worked[employee][1]) + " errores )"
+                header = userList[int(employee.split()[0])] + " (" + str(worked[employee][0]) + \
+                         " días S/. " + str(worked[employee][2]) + ") - (" + str(worked[employee][1]) + " errores)"
                 pdf.cell(0, 6, txt=header, ln=1, border=1, align='C')
 
                 count = 0

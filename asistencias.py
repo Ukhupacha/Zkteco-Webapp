@@ -5,7 +5,7 @@ import argparse
 sys.path.append("zk")
 from zk import ZK
 from os.path import abspath, expanduser
-from utils import getusers, configfile, filtergroup, filterdate, attendance2dict, countdays, createpdf
+from utils import getusers, configfile, getgroupandpay, filterdate, attendance2dict, countdays, createpdf
 
 conn = None
 parser = argparse.ArgumentParser(description='ZK Basic Reading Tests')
@@ -40,8 +40,8 @@ try:
     config = configfile(pathFile)
 
     # Filter by user/group
-    users = filtergroup(userList, config)
-
+    users, payment = getgroupandpay(userList, config)
+    print(payment)
     # Filter by date input
     history = filterdate(zk, users)
     #print(history)
@@ -52,8 +52,8 @@ try:
     #for i in employees:
     #    print(str(i) + " " + str(employees[i]))
 
-    # Count worked days and error days
-    worked = countdays(employees)
+    # Count worked days and error days and payment
+    worked = countdays(employees, payment)
 
     # Create PDF file
     createpdf(employees, worked, userList)
