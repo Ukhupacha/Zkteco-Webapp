@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-from os.path import abspath, expanduser
 import argparse
-import configparser
-from datetime import datetime, timedelta, time
 sys.path.append("zk")
-from zk import ZK, const
+from zk import ZK
+from os.path import abspath, expanduser
 from utils import getusers, configfile, filtergroup, filterdate, attendance2dict, countdays, createpdf
 
 conn = None
@@ -38,9 +36,8 @@ try:
     userList, conn = getusers(zk)
 
     # Configuration file
-    path = abspath(expanduser("~/.config/zkteco"))
     pathFile = abspath(expanduser("~/.config/zkteco/config.ini"))
-    config = configfile(path, pathFile)
+    config = configfile(pathFile)
 
     # Filter by user/group
     users = filtergroup(userList, config)

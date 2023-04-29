@@ -42,14 +42,14 @@ def getusers(zk: ZK) -> dict:
         zk.enable_device()
         return userlist, zk
 
-def configfile(path, pathFile):
+def configfile(pathFile):
         """
         Creates config file if it doesn't exist, reads it if it exists
-        :param path: Path con creation if the config file
         :param pathFile: Path and name of the config file
         :return configfile: Parsed config file
         """
         # Configuration file
+        path = os.path.dirname(pathFile)
         config = configparser.ConfigParser()
 
         if not os.path.exists(path):
