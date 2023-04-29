@@ -1706,11 +1706,11 @@ class ZK(object):
         j, i = 0, 0
         for k, g in groupby(_attendances, key_func):
             '''Group by Attendance ID'''
-            history[f'Attendance {k}'] = list(g)
+            history[k] = list(g)
 
-            for i, _ in enumerate(history[f'Attendance {k}']):
+            for i, _ in enumerate(history[k]):
                 '''Select datetime, status, and punch from the tupple.'''
-                history[f'Attendance {k}'][i] = _attendances[i + j]()[1:]
+                history[k][i] = _attendances[i + j]()[1:]
 
             j += i + 1
 
