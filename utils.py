@@ -225,6 +225,6 @@ def createpdf(employees, worked, userList):
         output = 'Asistencias' + '-' + extra
         file_path = filedialog.asksaveasfilename(filetypes=[("pdf", ".pdf")],
                                                  defaultextension=".pdf",
-                                                 initialdir="~/Documents",
+                                                 initialdir="~/Documentos",
                                                  initialfile=output)
         pdf.output(file_path)
