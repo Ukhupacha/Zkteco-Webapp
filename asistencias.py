@@ -41,16 +41,13 @@ try:
 
     # Filter by user/group
     users, payment = getgroupandpay(userList, config)
-    print(payment)
+
     # Filter by date input
     history = filterdate(zk, users)
-    #print(history)
+
 
     # Attendance to dict by date
     employees = attendance2dict(history)
-    #print(employees)
-    #for i in employees:
-    #    print(str(i) + " " + str(employees[i]))
 
     # Count worked days and error days and payment
     worked = countdays(employees, payment)
