@@ -215,7 +215,12 @@ def createpdf(employees, worked, userList):
                                 text = date + ' ' + input + '-' + output
                                 pdf.cell(space, h, txt=text, ln=ln, align='C')
                         else:
-                                error = 'Error el día ' + date
+                                if 0 in value:
+                                        t = value[0].strftime("%H:%M")
+                                if 1 in value:
+                                        t = value[1].strftime("%H:%M")
+
+                                error = date + ' ' + t
                                 pdf.set_font("Arial", style='B', size=8)
                                 pdf.cell(space, h, txt=error, ln=ln, align='C')
 
