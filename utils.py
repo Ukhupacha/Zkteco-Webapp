@@ -91,40 +91,44 @@ def getgroupandpay(userList, config):
         print("Nombres:\t" + str(names))
         return users, payment
 
+def inputdate():
+        """
+        :return start_date, end_date
+        """
+        while True:
+                try:
+                        start_date = input("Ingrese fecha inicial (dd/mm/yy):\n")
+                        start_date = datetime.strptime(start_date, '%d/%m/%y')
+                except ValueError:
+                        continue
+                else:
+                        break
 
+        while True:
+                try:
+                        end_date = input("Ingrese fecha final (dd/mm/yy):\n")
+                        end_date = datetime.strptime(end_date, '%d/%m/%y')
+                except ValueError:
+                        continue
+                else:
+                        break
+        return start_date, end_date
 
-def filterdate(zk:ZK, users):
+def filterdate(zk:ZK, users, start_date, end_date) :
         """
         :param zk: ZK object
         :param users: list of users to filter by
-        :return history: History of attendance objects
+        :param start_date: start date
+        :param end_date: end date
+        :return history: History of attendance objects and dates
         """
-        while True:
-                try:
-                        startdate = input("Ingrese fecha inicial (dd/mm/yyyy):\n")
-                        startdate = datetime.strptime(startdate, '%d/%m/%Y')
-                except ValueError:
-                        continue
-                else:
-                        break
 
-        while True:
-                try:
-                        enddate = input("Ingrese fecha final (dd/mm/yyyy):\n")
-                        enddate = datetime.strptime(enddate, '%d/%m/%Y') + timedelta(days=1)
-                except ValueError:
-                        continue
-                else:
-                        break
-
-
-        #startdate = datetime.strptime("24/04/2023", '%d/%m/%Y')
-        #enddate = datetime.strptime("28/04/2023", '%d/%m/%Y')  + timedelta(days=1)
+        final_date = end_date + timedelta(days=1)
         #users = [4]
 
         # Obtain history
         zk.disable_device()
-        history = zk.get_user_history(users=users, start_date=startdate, end_date=enddate)
+        history = zk.get_user_history(users=users, start_date=start_date, end_date=final_date)
         zk.enable_device()
 
         return history
@@ -197,11 +201,13 @@ def countdays(employees, payment):
         return worked
 
 
-def createpdf(employees, worked, userList):
+def createpdf(employees, worked, userList, start_date, end_date):
         """
         Create PDF file from employees and worked days
         :param employees: dict of employees
         :param worked: dict of worked days, error days
+        :param start_date: start date to generate
+        :param end_date: end date to generate
         """
         root = tk.Tk()
         root.withdraw()
@@ -214,8 +220,9 @@ def createpdf(employees, worked, userList):
         h = 6
         space = 35
         week = 6
-        pdf.set_font("Arial", style='BIU', size=20)
-        pdf.cell(0, 10, txt='Reporte de Asistencias', ln=1, align='C')
+        pdf.set_font("Arial", style='BIU', size=15)
+        title = 'Reporte de Asistencias ' + start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")
+        pdf.cell(0, 10, txt=title, ln=1, align='C')
 
         # Created PDF object with
         for employee, date in employees.items():
