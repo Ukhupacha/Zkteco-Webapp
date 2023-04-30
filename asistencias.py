@@ -45,7 +45,6 @@ try:
     # Filter by date input
     history = filterdate(zk, users)
 
-
     # Attendance to dict by date
     employees = attendance2dict(history)
 
@@ -56,7 +55,7 @@ try:
     createpdf(employees, worked, userList)
 
     # Bye
-    print("Verificar documento y cerrar esta ventana\n")
+    input("Verificar documento y cerrar esta ventana\n")
 
 
 

@@ -150,7 +150,19 @@ def attendance2dict(history):
                         if date not in employees[i]:
                                 employees[i][date] = {}
                         if date in employees[i]:
-                                employees[i][date][punch] = date_time
+                                if punch in employees[i][date]:
+                                        if punch == 0:
+                                                if 1 not in employees[i][date]:
+                                                        employees[i][date][1] = max(date_time, employees[i][date][punch])
+                                                employees[i][date][punch] = min(date_time, employees[i][date][punch])
+
+                                        if punch == 1:
+                                                if 0 not in employees[i][date]:
+                                                        employees[i][date][int(0)] = min(date_time, employees[i][date][punch])
+                                                employees[i][date][punch] = max(date_time, employees[i][date][punch])
+
+                                else:
+                                        employees[i][date][punch] = date_time
                                 if (0 in employees[i][date]) and (1 in employees[i][date]):
                                         t2 = employees[i][date][1]
                                         t1 = employees[i][date][0]
