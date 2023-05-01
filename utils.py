@@ -242,11 +242,18 @@ def createpdf(employees, worked, userList, start_date, end_date):
                                 ln = 0
                         date = key.strftime("%d/%m")
                         if 'Hours' in value:
+                                if value['Hours'] > 9:
+                                        pdf.set_text_color(0, 0, 0)
+                                elif value['Hours'] > 4:
+                                        pdf.set_text_color(255, 0, 0)
+                                else:
+                                        pdf.set_text_color(0, 0, 255)
                                 input = value[0].strftime("%H:%M")
                                 output = value[1].strftime("%H:%M")
                                 text = date + ' ' + input + '-' + output
                                 pdf.cell(space, h, txt=text, ln=ln, align='C')
                         else:
+                                pdf.set_text_color(0, 0, 0)
                                 if 0 in value:
                                         t = value[0].strftime("%H:%M")
                                 if 1 in value:
