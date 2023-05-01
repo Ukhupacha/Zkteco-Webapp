@@ -15,7 +15,7 @@ groups = {
         3: "secretaria"
 }
 
-def getusers(zk: ZK) -> dict:
+def get_user_list(zk: ZK) -> dict:
         """
         Get users from ZK object and returns dictionary of user
         :param zk: ZK object to user as connection
@@ -42,7 +42,7 @@ def getusers(zk: ZK) -> dict:
         zk.enable_device()
         return userlist, zk
 
-def configfile(pathFile):
+def config_file(pathFile):
         """
         Creates config file if it doesn't exist, reads it if it exists
         :param pathFile: Path and name of the config file
@@ -73,7 +73,7 @@ def configfile(pathFile):
         config.read(pathFile)
         return config
 
-def getgroupandpay(userList, config):
+def get_group_and_pay(userList, config):
         """
         :param userList: List of users
         :return users:
@@ -91,7 +91,7 @@ def getgroupandpay(userList, config):
         print("Nombres:\t" + str(names))
         return users, payment
 
-def inputdate():
+def input_date():
         """
         :return start_date, end_date
         """
@@ -114,7 +114,7 @@ def inputdate():
                         break
         return start_date, end_date
 
-def filterdate(zk:ZK, users, start_date, end_date) :
+def filter_by_date(zk:ZK, users, start_date, end_date) :
         """
         :param zk: ZK object
         :param users: list of users to filter by
@@ -134,7 +134,7 @@ def filterdate(zk:ZK, users, start_date, end_date) :
         return history
 
 
-def attendance2dict(history):
+def attendance_to_dict(history):
         """
         :param history: Attendances
         :return employees: dict of employees [employees][date][in|out]['hours']
@@ -176,7 +176,7 @@ def attendance2dict(history):
                                         employees[i][date]['Hours'] = float(hours.seconds / 3600)
         return employees
 
-def countdays(employees, payment):
+def count_days(employees, payment):
         """
         Count days worked and error days
         :param employees: dictionary of employees punch days
@@ -201,7 +201,7 @@ def countdays(employees, payment):
         return worked
 
 
-def createpdf(employees, worked, userList, start_date, end_date):
+def create_pdf(employees, worked, userList, start_date, end_date):
         """
         Create PDF file from employees and worked days
         :param employees: dict of employees

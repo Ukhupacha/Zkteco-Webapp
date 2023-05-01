@@ -6,7 +6,7 @@ sys.path.append("zk")
 from datetime import datetime
 from zk import ZK
 from os.path import abspath, expanduser
-from utils import getusers, configfile, getgroupandpay, filterdate, attendance2dict, countdays, createpdf, inputdate
+from utils import *
 
 conn = None
 parser = argparse.ArgumentParser(description='ZK Basic Reading Tests')
@@ -34,33 +34,31 @@ zk = ZK(args.address, port=args.port, timeout=args.timeout, password=args.passwo
 try:
 
     # Return List of Users and ZK Connection
-    userList, conn = getusers(zk)
+    userList, conn = get_user_list(zk)
 
     # Configuration file
     pathFile = abspath(expanduser("~/.config/zkteco/config.ini"))
-    config = configfile(pathFile)
+    config = config_file(pathFile)
 
     # Filter by user/group
-    users, payment = getgroupandpay(userList, config)
+    users, payment = get_group_and_pay(userList, config)
 
     # Filter by date input
-    start_date, end_date = inputdate()
+    start_date, end_date = input_date()
 
-    history= filterdate(zk, users, start_date, end_date)
+    history= filter_by_date(zk, users, start_date, end_date)
 
     # Attendance to dict by date
-    employees = attendance2dict(history)
+    employees = attendance_to_dict(history)
 
     # Count worked days and error days and payment
-    worked = countdays(employees, payment)
+    worked = count_days(employees, payment)
 
     # Create PDF file
-    createpdf(employees, worked, userList, start_date, end_date)
+    create_pdf(employees, worked, userList, start_date, end_date)
 
     # Bye
     input("Verificar documento y cerrar esta ventana\n")
-
-
 
 except Exception as e:
     print ("Process terminate : {}".format(e))
