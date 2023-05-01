@@ -231,8 +231,8 @@ def create_pdf(employees, worked, userList, start_date, end_date):
                 header = userList[int(employee.split()[0])] + " (" + str(worked[employee][0]) + \
                          " días S/. " + str(worked[employee][2]) + ") - (" + str(worked[employee][1]) + " errores)"
                 pdf.cell(0, 6, txt=header, ln=1, border=1, align='C')
-
                 count = 0
+
                 for key, value in date.items():
                         count += 1
                         pdf.set_font("Arial", size=8)
@@ -258,7 +258,6 @@ def create_pdf(employees, worked, userList, start_date, end_date):
                                         t = value[0].strftime("%H:%M")
                                 if 1 in value:
                                         t = value[1].strftime("%H:%M")
-
                                 error = date + ' ' + t
                                 pdf.set_font("Arial", style='B', size=8)
                                 pdf.cell(space, h, txt=error, ln=ln, align='C')
