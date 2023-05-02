@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencias AGP</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+<body>
+    <div style="margin-top: 50px;" class="ui container">
+        <h1 class="ui center aligned header">Cálculo de asistencias y sueldo</h1>
+           <p class="ui big header">Trabajadores  </p>
+            {% for user in user_list %}
+                {{user}} | {{user_list[user]}} <br>
+            {% endfor %}
+
+        <hr>
+
+        <form class="ui form" action="/attendance" method="post">
+            <div class="field">
+                <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td><label>ID de Trabajador</label></td>
+                        <td><input type="number" name="id_worker" placeholder="Ingresar trabajador" style="width:200px"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Fecha inicial</label></td>
+                        <td><input type="date"  name="start_date" placeholder="Fecha inicial" style="width:200px"></td>
+                        <td><label>Fecha final</label></td>
+                        <td><input type="date"  name="end_date" placeholder="Fecha final" style="width:200px"></td>
+                        <td><label>Sueldo por día</label></td>
+                        <td><input type="number"  name="day_wage" placeholder="Sueldo por día" style="width:200px"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <button class="ui blue button" type="submit">Calcular asistencias</button>
+        </form>
+    </div>
+</body>
+
+</html>
