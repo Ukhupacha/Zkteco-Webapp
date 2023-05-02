@@ -32,7 +32,7 @@ def main():
     try:
 
         # Return List of Users and ZK Connection
-        user_list= get_user_list(zk)
+        user_list = get_user_list(zk)
 
         # Configuration file
         path_file = abspath(expanduser("~/.config/zkteco/config.ini"))
