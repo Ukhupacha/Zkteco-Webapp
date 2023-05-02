@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
-import os
 import argparse
 sys.path.append("zk")
-from datetime import datetime
-from zk import ZK
 from os.path import abspath, expanduser
 from utils import *
 
