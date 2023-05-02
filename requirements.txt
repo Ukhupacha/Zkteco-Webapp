@@ -1,2 +1,4 @@
 setuptools>=66.0.0
 fpdf>=1.7.2
+fastapi>=0.95.1
+starlette>=0.26.1

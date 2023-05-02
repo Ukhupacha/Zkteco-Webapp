@@ -53,7 +53,20 @@ def main():
         worked = count_days(employees, payment)
 
         # Create PDF file
-        create_pdf(employees, worked, userList, start_date, end_date)
+        pdf = create_pdf(employees, worked, userList, start_date, end_date)
+
+        # Save document
+
+        root = tk.Tk()
+        root.withdraw()
+
+        extra = datetime.today().strftime('%d-%m-%Y')
+        output = 'Asistencias' + '-' + extra
+        file_path = filedialog.asksaveasfilename(filetypes=[("pdf", ".pdf")],
+                                                 defaultextension=".pdf",
+                                                 initialdir="~/Documentos",
+                                                 initialfile=output)
+        pdf.output(file_path)
 
         # Bye
         input("Verificar documento y cerrar esta ventana\n")

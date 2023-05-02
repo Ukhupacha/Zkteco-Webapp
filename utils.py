@@ -20,7 +20,7 @@ def get_user_list(zk: ZK) -> dict:
     """
         Get users from ZK object and returns dictionary of user
         :param zk: ZK object to user as connection
-        :return: dict, connection zk
+        :return: dict user_list
         """
 
     print('Connecting to device ...')
@@ -31,34 +31,34 @@ def get_user_list(zk: ZK) -> dict:
     # print '--- Get User ---'
     users = zk.get_users()
     print('Usuario ID\tNombre')
-    userlist = {}
+    user_list = {}
     for user in users:
         # privilege = 'User'
         # if user.privilege == const.USER_ADMIN:
         #    privilege = 'Admin'
         print('    {}\t\t{}'.format(user.user_id, user.name))
-        userlist[int(user.user_id)] = user.name
+        user_list[int(user.user_id)] = user.name
 
     print('Enabling device ...')
     zk.enable_device()
-    return userlist
+    return user_list
 
 
-def config_file(pathFile):
+def config_file(path_file):
     """
         Creates config file if it doesn't exist, reads it if it exists
-        :param pathFile: Path and name of the config file
+        :param path_file: Path and name of the config file
         :return configfile: Parsed config file
         """
     # Configuration file
-    path = os.path.dirname(pathFile)
+    path = os.path.dirname(path_file)
     config = configparser.ConfigParser()
 
     if not os.path.exists(path):
         print("Creating config path " + path)
         os.makedirs(path)
 
-    if not os.path.exists(pathFile):
+    if not os.path.exists(path_file):
         escogedoras = input("Ingresar los numeros de escogedoras:\n")
         varones = input("Ingreasar los numeros de los varones:\n")
         secrataria = input("Ingresar los numeros de secretaria:\n")
@@ -68,17 +68,17 @@ def config_file(pathFile):
         varones = input("Ingresar pago varones:\n")
         secrataria = input("Ingresar pago secretaria:\n")
         config['Pagos'] = {'escogedoras': escogedoras, 'varones': varones, 'secretaria': secrataria}
-        with open(pathFile, 'w') as configfile:
+        with open(path_file, 'w') as configfile:
             config.write(configfile)
 
     # Read the file
-    config.read(pathFile)
+    config.read(path_file)
     return config
 
 
-def get_group_and_pay(userList, config):
+def get_group_and_pay(user_list, config):
     """
-        :param userList: List of users
+        :param user_list: List of users
         :return users:
         """
     print("Ingrese un tipo de grupo a generar:")
@@ -89,7 +89,7 @@ def get_group_and_pay(userList, config):
     users = config.get('Usuarios', str(groups[group]))
     payment = config.get('Pagos', str(groups[group]))
     users = [int(i) for i in users.split(',')]
-    names = [userList[i] for i in users]
+    names = [user_list[i] for i in users]
     print("Usuarios ID:\t" + str(users))
     print("Nombres:\t" + str(names))
     return users, payment
@@ -215,8 +215,6 @@ def create_pdf(employees, worked, userList, start_date, end_date):
         :param start_date: start date to generate
         :param end_date: end date to generate
         """
-    root = tk.Tk()
-    root.withdraw()
     # Initiate PDF
     pdf = FPDF()
     pdf.set_left_margin(1)
@@ -271,11 +269,4 @@ def create_pdf(employees, worked, userList, start_date, end_date):
         pdf.cell(0, 4, txt=' ', ln=1, align='C')
         pdf.cell(0, 4, txt=' ', ln=1, align='C')
 
-    # Save document
-    extra = datetime.today().strftime('%d-%m-%Y')
-    output = 'Asistencias' + '-' + extra
-    file_path = filedialog.asksaveasfilename(filetypes=[("pdf", ".pdf")],
-                                             defaultextension=".pdf",
-                                             initialdir="~/Documentos",
-                                             initialfile=output)
-    pdf.output(file_path)
+    return pdf
