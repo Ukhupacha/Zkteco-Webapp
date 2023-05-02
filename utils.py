@@ -41,7 +41,7 @@ def get_user_list(zk: ZK) -> dict:
 
     print('Enabling device ...')
     zk.enable_device()
-    return userlist, zk
+    return userlist
 
 
 def config_file(pathFile):
