@@ -32,14 +32,14 @@ def main():
     try:
 
         # Return List of Users and ZK Connection
-        userList= get_user_list(zk)
+        user_list= get_user_list(zk)
 
         # Configuration file
-        pathFile = abspath(expanduser("~/.config/zkteco/config.ini"))
-        config = config_file(pathFile)
+        path_file = abspath(expanduser("~/.config/zkteco/config.ini"))
+        config = config_file(path_file)
 
         # Filter by user/group
-        users, payment = get_group_and_pay(userList, config)
+        users, payment = get_group_and_pay(user_list, config)
 
         # Filter by date input
         start_date, end_date = input_date()
@@ -53,7 +53,7 @@ def main():
         worked = count_days(employees, payment)
 
         # Create PDF file
-        pdf = create_pdf(employees, worked, userList, start_date, end_date)
+        pdf = create_pdf(employees, worked, user_list, start_date, end_date)
 
         # Save document
 

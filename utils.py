@@ -207,11 +207,12 @@ def count_days(employees, payment):
     return worked
 
 
-def create_pdf(employees, worked, userList, start_date, end_date):
+def create_pdf(employees, worked, user_list, start_date, end_date):
     """
         Create PDF file from employees and worked days
         :param employees: dict of employees
         :param worked: dict of worked days, error days
+        :param user_list: dict of list of users
         :param start_date: start date to generate
         :param end_date: end date to generate
         """
@@ -232,7 +233,7 @@ def create_pdf(employees, worked, userList, start_date, end_date):
     for employee, date in employees.items():
 
         pdf.set_font("Arial", style='BIU', size=11)
-        header = userList[int(employee.split()[0])] + " (" + str(worked[employee][0]) + \
+        header = user_list[int(employee.split()[0])] + " (" + str(worked[employee][0]) + \
                  " días S/. " + str(worked[employee][2]) + ") - (" + str(worked[employee][1]) + " errores)"
         pdf.cell(0, 6, txt=header, ln=1, border=1, align='C')
         count = 0
