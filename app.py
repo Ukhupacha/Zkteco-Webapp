@@ -1,4 +1,5 @@
 import uvicorn
+import argparse
 from datetime import date, datetime
 from utils import *
 from fastapi import FastAPI, Depends, Request, Form, status
@@ -42,4 +43,11 @@ def add(request: Request,
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=80)
+    parser = argparse.ArgumentParser(description='Attendance app')
+    parser.add_argument('-a', '--address',
+                        help='Host address', default='0.0.0.0')
+    parser.add_argument('-p', '--port', type=int,
+                        help='Host port', default=80)
+
+    args = parser.parse_args()
+    uvicorn.run(app, host=args.address, port=args.port)
