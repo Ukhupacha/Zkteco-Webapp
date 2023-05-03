@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import uvicorn
 import argparse
 from datetime import date, datetime
