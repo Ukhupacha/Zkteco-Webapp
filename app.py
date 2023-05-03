@@ -2,13 +2,14 @@ import uvicorn
 import argparse
 from datetime import date, datetime
 from utils import *
+from pathlib import Path
 from fastapi import FastAPI, Depends, Request, Form, status
 from starlette.responses import RedirectResponse, FileResponse
 from starlette.templating import Jinja2Templates
-
 sys.path.append("zk")
 
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 app = FastAPI()
 zk = ZK('zkteco.intranet', port=4370, timeout=5, password=0, force_udp=False, ommit_ping=False)
