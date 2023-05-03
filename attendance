@@ -5,7 +5,3 @@
 name="attendance"
 description="Attendance zkteco"
 command="python3 /root/Zkteco/app.py"
-
-depend() {
-
-}
