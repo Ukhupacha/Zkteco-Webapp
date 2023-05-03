@@ -1,4 +1,4 @@
-import tempfile
+import uvicorn
 from datetime import date, datetime
 from utils import *
 from fastapi import FastAPI, Depends, Request, Form, status
@@ -39,3 +39,7 @@ def add(request: Request,
     name = user_list[id_worker] + ".pdf"
 
     return FileResponse(pdf_temp, media_type="application/pdf", filename=name)
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=80)
