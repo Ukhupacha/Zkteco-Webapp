@@ -1,8 +1,6 @@
 import sys
 import os
 import configparser
-import tkinter as tk
-from tkinter import filedialog
 from fpdf import FPDF
 from datetime import datetime, timedelta
 from zk import ZK, const
