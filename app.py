@@ -15,7 +15,7 @@ from starlette.templating import Jinja2Templates
 
 sys.path.append("zk")
 
-locale.setlocale(locale.LC_ALL, 'es_PE.UTF-8')
+locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
