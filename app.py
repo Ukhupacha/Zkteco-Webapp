@@ -3,6 +3,7 @@ import uvicorn
 import argparse
 import matplotlib
 import matplotlib.pyplot as plt
+import locale
 import base64
 from PIL import Image
 from datetime import date
@@ -14,6 +15,7 @@ from starlette.templating import Jinja2Templates
 
 sys.path.append("zk")
 
+locale.setlocale(locale.LC_ALL, 'es_PE.utf8')
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
