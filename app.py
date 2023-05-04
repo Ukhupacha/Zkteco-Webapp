@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 import uvicorn
 import argparse
+import matplotlib
 import matplotlib.pyplot as plt
 import base64
 from PIL import Image
-from datetime import date, datetime
+from datetime import date
 from utils import *
 from pathlib import Path
 from fastapi import FastAPI, Depends, Request, Form, status
@@ -21,6 +22,7 @@ zk = ZK('zkteco.intranet', port=4370, timeout=5, password=0, force_udp=False, om
 user_list = get_user_list(zk)
 image_path = 'image.png'
 pdf_path = 'pdf.pdf'
+matplotlib.use('agg')
 
 
 # Dependency
@@ -41,14 +43,9 @@ def add(request: Request,
     end_date = datetime(end_date.year, end_date.month, end_date.day)
     attendance = filter_by_date(zk, user, start_date, end_date)
     user_history = attendance_to_dict(attendance)
-    # worked = count_days(user_history, day_wage)
-    # pdf = create_pdf(user_history, worked, user_list, start_date, end_date)
-    dates, data = data_to_july(user_history, start_date, end_date)
-    figsize = (5, 5)
-    fig, ax = plt.subplots(figsize=figsize, dpi=100)
-    axes = july.heatmap(dates, data, month_grid=True,
-                        horizontal=False, date_label=True,
-                        title='Asistencias', cmap="github", ax=ax)
+    dates, data, days, errors = data_to_july(user_history, start_date, end_date)
+
+    axes = create_july_image(dates, data, days, errors, day_wage)
     plt.axes(axes)
     plt.savefig(image_path)
     im = Image.open(image_path)
@@ -57,17 +54,13 @@ def add(request: Request,
     file = open('image.png', 'rb')
     data = file.read()
     encoded_image = base64.b64encode(data).decode("utf-8")
+    title = user_list[id_worker] + ' ' + start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")
     return templates.TemplateResponse("base.html",
-                                      {"request": request, "img": encoded_image})
+                                      {"request": request,
+                                       "user_list": user_list,
+                                       "title": title,
+                                       "img": encoded_image})
 
-    """
-    pdf = create_image_pdf(image_path)
-
-    pdf.output(pdf_path)
-    name = user_list[id_worker] + ".pdf"
-
-    return FileResponse(pdf_path, media_type="application/pdf", filename=name)
-    """
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Attendance app')

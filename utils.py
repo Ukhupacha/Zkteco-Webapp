@@ -2,6 +2,7 @@ import sys
 import os
 import configparser
 import july
+import matplotlib.pyplot as plt
 from july.utils import date_range
 from fpdf import FPDF
 from datetime import datetime, timedelta
@@ -279,30 +280,42 @@ def data_to_july(employees, start_date, end_date):
     :param employees: dict of employees[i][date]['Hours']
     :param start_date: start of date
     :param end_date: end of date
-    :return dates, data
+    :return dates, data, days, errors
     """
 
     dates = date_range(start_date, end_date)
     data = []
+    days = 0
+    errors = 0
     for key, value in employees.items():
         for date in dates:
             if date in value:
                 if 'Hours' in value[date]:
-                    data.append(value[date]['Hours'])
+                    if value[date]['Hours'] > 9:
+                        data.append(float(9))
+                        days += 1
+                    elif value[date]['Hours'] > 4:
+                        data.append(float(4))
+                        days += 0.5
                 else:
-                    data.append(float(0))
+                    data.append(float(-5))
+                    errors += 1
             else:
-                data.append(float(0))
+                data.append(float(-12))
 
-    return dates, data
-def create_image_pdf(image_path):
+    return dates, data, days, errors
+
+
+def create_july_image(dates, data, days, errors, day_wage):
     """
-    Create basic pdf with only image
-    :param image_path: path of image
-    :return pdf
+
     """
-    # Initiate PDF
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.image(image_path, 0.0, 0.0)
-    return pdf
+    figsize = (5, 5)
+    title = str(days) + " días (S./ " + str(day_wage*days) + ") -" + str(errors) + " errores"
+
+    fig, ax = plt.subplots(figsize=figsize, dpi=100)
+    axes = july.heatmap(dates, data, month_grid=True,
+                        horizontal=False, date_label=True,
+                        colorbar=True, frame_on=True,
+                        title=title, cmap='Blues', ax=ax)
+    return axes
