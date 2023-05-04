@@ -311,7 +311,7 @@ def create_july_image(dates, data, days, errors, day_wage):
 
     """
     figsize = (5, 5)
-    title = str(days) + " días (S./ " + str(day_wage*days) + ") -" + str(errors) + " errores"
+    title = str(days) + " días (S./ " + str(day_wage*days) + ") - " + str(errors) + " errores"
 
     fig, ax = plt.subplots(figsize=figsize, dpi=100)
     axes = july.heatmap(dates, data, month_grid=True,
