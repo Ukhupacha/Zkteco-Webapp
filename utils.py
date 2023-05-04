@@ -274,6 +274,13 @@ def create_pdf(employees, worked, user_list, start_date, end_date):
 
 
 def data_to_july(employees, start_date, end_date):
+    """
+    Verifies that all dates have a value
+    :param employees: dict of employees[i][date]['Hours']
+    :param start_date: start of date
+    :param end_date: end of date
+    :return dates, data
+    """
 
     dates = date_range(start_date, end_date)
     data = []
@@ -288,4 +295,14 @@ def data_to_july(employees, start_date, end_date):
                 data.append(float(0))
 
     return dates, data
-
+def create_image_pdf(image_path):
+    """
+    Create basic pdf with only image
+    :param image_path: path of image
+    :return pdf
+    """
+    # Initiate PDF
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.image(image_path, 0.0, 0.0)
+    return pdf
