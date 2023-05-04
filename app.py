@@ -38,8 +38,20 @@ def add(request: Request,
     worked = count_days(user_history, day_wage)
     pdf = create_pdf(user_history, worked, user_list, start_date, end_date)
     pdf_temp = "attendance.pdf"
+
+    dates, data = data_to_july(user_history, start_date, end_date)
+
+    stuff = july.heatmap(dates, data, month_grid=True,
+                         horizontal=False, date_label=True,
+                         title='Asistencias', cmap="github")
+
+    plt.axes(stuff)
+    plt.savefig('stuff.png')
+    pdftest('stuff.png')
+
     pdf.output(pdf_temp)
     name = user_list[id_worker] + ".pdf"
+
 
     return FileResponse(pdf_temp, media_type="application/pdf", filename=name)
 

@@ -1,6 +1,8 @@
 import sys
 import os
 import configparser
+import july
+from july.utils import date_range
 from fpdf import FPDF
 from datetime import datetime, timedelta
 from zk import ZK, const
@@ -269,3 +271,21 @@ def create_pdf(employees, worked, user_list, start_date, end_date):
         pdf.cell(0, 4, txt=' ', ln=1, align='C')
 
     return pdf
+
+
+def data_to_july(employees, start_date, end_date):
+
+    dates = date_range(start_date, end_date)
+    data = []
+    for key, value in employees.items():
+        for date in dates:
+            if date in value:
+                if 'Hours' in value[date]:
+                    data.append(value[date]['Hours'])
+                else:
+                    data.append(float(0))
+            else:
+                data.append(float(0))
+
+    return dates, data
+
