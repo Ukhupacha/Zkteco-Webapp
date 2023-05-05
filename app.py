@@ -50,6 +50,7 @@ async def add(request: Request, id_worker: int = Form(...), start_date: date = F
     plt.savefig(img_buf, format='PNG')
     plt.close(fig)
     png = img_buf.getvalue()
+    img_buf.close()
     base64_encoded_image = base64.b64encode(png).decode("utf-8")
     title = user_list[id_worker] + ' ' + start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")
     return templates.TemplateResponse("base.html",
