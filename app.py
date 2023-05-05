@@ -62,10 +62,8 @@ async def add(request: Request, id_worker: int = Form(...), start_date: date = F
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Attendance app')
-    parser.add_argument('-a', '--address',
-                        help='Host address', default='0.0.0.0')
-    parser.add_argument('-p', '--port', type=int,
-                        help='Host port', default=80)
+    parser.add_argument('-a', '--address', help='Host address', default='0.0.0.0')
+    parser.add_argument('-p', '--port', type=int, help='Host port', default=80)
 
     args = parser.parse_args()
     uvicorn.run(app, host=args.address, port=args.port)

@@ -292,23 +292,32 @@ def data_to_july(employees, start_date, end_date):
             if date in value:
                 if 'Hours' in value[date]:
                     if value[date]['Hours'] > 9:
-                        data.append(float(10))
+                        data.append(float(-10))
                         days += 1
                     elif value[date]['Hours'] > 4:
-                        data.append(float(5))
+                        data.append(float(-5))
                         days += 0.5
+                    else:
+                        data.append(float(5))
+                        errors += 1
                 else:
-                    data.append(float(-5))
+                    data.append(float(10))
                     errors += 1
             else:
-                data.append(float(-10))
+                data.append(float(0))
 
     return dates, data, days, errors
 
 
 def create_july_image(dates, data, days, errors, day_wage):
     """
-
+    Creates a plot image with the july library.
+    :param dates: list of dates
+    :param data: list of data point for each date
+    :param days: int of days worked
+    :param errors: int of errors
+    :param day_wage: wage per day
+    :return axes: matplotlib axes
     """
     figsize = (5, 5)
     title = str(days) + " días (S./ " + str(day_wage*days) + ") - " + str(errors) + " errores"
@@ -316,6 +325,6 @@ def create_july_image(dates, data, days, errors, day_wage):
     fig, ax = plt.subplots(figsize=figsize, dpi=100)
     axes = july.heatmap(dates, data, month_grid=True,
                         horizontal=False, date_label=True,
-                        colorbar=True, frame_on=True,
-                        title=title, cmap='Blues', ax=ax)
+                        frame_on=True, cmax=15, cmin=-15,
+                        title=title, cmap='coolwarm', ax=ax)
     return axes
