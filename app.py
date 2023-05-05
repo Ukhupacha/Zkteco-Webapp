@@ -68,4 +68,4 @@ if __name__ == "__main__":
                         help='Host port', default=80)
 
     args = parser.parse_args()
-    uvicorn.run(app, host=args.address, port=args.port)
+    uvicorn.run(app, host=args.address, port=args.port, reload=True)
