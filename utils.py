@@ -291,7 +291,10 @@ def data_to_july(employees, start_date, end_date):
         for date in dates:
             if date in value:
                 if 'Hours' in value[date]:
-                    if value[date]['Hours'] > 9:
+                    if value[date]['Hours'] > 12:
+                        data.append(float(-15))
+                        days += 1.5
+                    elif value[date]['Hours'] > 9:
                         data.append(float(-10))
                         days += 1
                     elif value[date]['Hours'] > 4:
