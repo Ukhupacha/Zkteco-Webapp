@@ -47,7 +47,7 @@
 
         {% if img %}
         <h1>{{title}}</h1>
-            <img src="data:image/png;base64,{{img}}" />
+            <img src="data:image/png;base64,{{ img | safe }}" />
         {% endif %}
     </div>
 </body>

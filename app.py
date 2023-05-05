@@ -5,12 +5,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 import locale
 import base64
-from PIL import Image
+import io
 from datetime import date
 from utils import *
 from pathlib import Path
-from fastapi import FastAPI, Depends, Request, Form, status
-from starlette.responses import RedirectResponse, FileResponse
+from fastapi import FastAPI, Request, Form
 from starlette.templating import Jinja2Templates
 
 sys.path.append("zk")
@@ -23,7 +22,6 @@ app = FastAPI()
 zk = ZK('zkteco.intranet', port=4370, timeout=5, password=0, force_udp=False, ommit_ping=False)
 user_list = get_user_list(zk)
 image_path = 'image.png'
-pdf_path = 'pdf.pdf'
 matplotlib.use('agg')
 
 
@@ -35,11 +33,9 @@ def home(request: Request):
 
 
 @app.post("/attendance")
-def add(request: Request,
-        id_worker: int = Form(...),
-        start_date: date = Form(...),
-        end_date: date = Form(...),
-        day_wage: int = Form(...)):
+async def add(request: Request, id_worker: int = Form(...), start_date: date = Form(...),
+              end_date: date = Form(...), day_wage: int = Form(...)):
+
     user = [id_worker]
     start_date = datetime(start_date.year, start_date.month, start_date.day)
     end_date = datetime(end_date.year, end_date.month, end_date.day)
@@ -48,20 +44,19 @@ def add(request: Request,
     dates, data, days, errors = data_to_july(user_history, start_date, end_date)
 
     axes = create_july_image(dates, data, days, errors, day_wage)
+    fig = axes.get_figure()
     plt.axes(axes)
-    plt.savefig(image_path)
-    im = Image.open(image_path)
-    rgb_im = im.convert('RGB')
-    rgb_im.save('image.jpg')
-    file = open('image.png', 'rb')
-    data = file.read()
-    encoded_image = base64.b64encode(data).decode("utf-8")
+    img_buf = io.BytesIO()
+    plt.savefig(img_buf, format='PNG')
+    plt.close(fig)
+    png = img_buf.getvalue()
+    base64_encoded_image = base64.b64encode(png).decode("utf-8")
     title = user_list[id_worker] + ' ' + start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")
     return templates.TemplateResponse("base.html",
                                       {"request": request,
                                        "user_list": user_list,
                                        "title": title,
-                                       "img": encoded_image})
+                                       "img": base64_encoded_image})
 
 
 if __name__ == "__main__":
