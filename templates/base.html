@@ -46,7 +46,8 @@
 
 
         {% if img %}
-        <h1>{{title}}</h1>
+        <h1>{{title[0]}}</h1>
+        <h1>{{title[1]}}</h1>
             <img src="data:image/png;base64,{{ img | safe }}" />
         {% endif %}
     </div>

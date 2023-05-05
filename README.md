@@ -29,11 +29,16 @@ pip3 install -r requirements.txx
 
 ## Basic Usage
 
-Once the service is created
+If you have installed it on Alpine, just start the created service with.
+You can navigate to the ip of the web server you created.
 ```bash
 rc-service attendance start
 ```
 
+Otherwise, if you want to run it on your pc and try it
+```commandline
+python app.py -a 127.0.0.1 -p 8000
+```
 
 # Compatible devices
 
