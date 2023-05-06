@@ -120,7 +120,7 @@ def input_date():
     return start_date, end_date
 
 
-def filter_by_date(zk: ZK, users, start_date, end_date):
+def filter_by_date(zk: ZK, users, start_date, end_date=None):
     """
         :param zk: ZK object
         :param users: list of users to filter by
@@ -128,8 +128,10 @@ def filter_by_date(zk: ZK, users, start_date, end_date):
         :param end_date: end date
         :return history: History of attendance objects and dates
         """
+    final_date = None
+    if end_date is not None:
+        final_date = end_date + timedelta(days=1)
 
-    final_date = end_date + timedelta(days=1)
     # users = [4]
 
     # Obtain history
@@ -262,8 +264,10 @@ def create_pdf(employees, worked, user_list, start_date, end_date):
                 pdf.set_text_color(0, 0, 0)
                 if 0 in value:
                     t = value[0].strftime("%H:%M")
-                if 1 in value:
+                elif 1 in value:
                     t = value[1].strftime("%H:%M")
+                else:
+                    t = ''
                 error = date + ' ' + t
                 pdf.set_font("Arial", style='B', size=8)
                 pdf.cell(space, h, txt=error, ln=ln, align='C')
@@ -323,7 +327,7 @@ def create_july_image(dates, data, days, errors, day_wage):
     :return axes: matplotlib axes
     """
     figsize = (5, 5)
-    title = str(days) + " días (S./ " + str(day_wage*days) + ") - " + str(errors) + " errores"
+    title = str(days) + " días (S./ " + str(day_wage * days) + ") - " + str(errors) + " errores"
 
     fig, ax = plt.subplots(figsize=figsize, dpi=100)
     axes = july.heatmap(dates, data, month_grid=True,

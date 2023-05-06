@@ -20,7 +20,8 @@
 
         <hr>
 
-        <form class="ui form" action="/attendance" method="post">
+
+        <form class="ui form" method="post">
             <div class="field">
                 <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -41,7 +42,8 @@
                     </tr>
                 </table>
             </div>
-            <button class="ui blue button" type="submit">Calcular asistencias</button>
+            <button class="ui blue button" formaction="/attendance" type="submit">Calcular asistencias</button>
+            <button class="ui red button" formaction="/pdf" type="submit">Generar Reporte</button>
         </form>
 
 
