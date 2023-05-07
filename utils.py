@@ -6,15 +6,9 @@ import matplotlib.pyplot as plt
 from july.utils import date_range
 from fpdf import FPDF
 from datetime import datetime, timedelta
-from zk import ZK, const
+from zk import ZK
 
 sys.path.append("zk")
-
-groups = {
-    1: "escogedoras",
-    2: "varones",
-    3: "secretaria"
-}
 
 
 def get_user_list(zk: ZK) -> dict:
@@ -43,81 +37,6 @@ def get_user_list(zk: ZK) -> dict:
     print('Enabling device ...')
     zk.enable_device()
     return user_list
-
-
-def config_file(path_file):
-    """
-        Creates config file if it doesn't exist, reads it if it exists
-        :param path_file: Path and name of the config file
-        :return configfile: Parsed config file
-        """
-    # Configuration file
-    path = os.path.dirname(path_file)
-    config = configparser.ConfigParser()
-
-    if not os.path.exists(path):
-        print("Creating config path " + path)
-        os.makedirs(path)
-
-    if not os.path.exists(path_file):
-        escogedoras = input("Ingresar los numeros de escogedoras:\n")
-        varones = input("Ingreasar los numeros de los varones:\n")
-        secrataria = input("Ingresar los numeros de secretaria:\n")
-        config['Usuarios'] = {'escogedoras': escogedoras, 'varones': varones, 'secretaria': secrataria}
-
-        escogedoras = input("Ingresar pago escogedoras:\n")
-        varones = input("Ingresar pago varones:\n")
-        secrataria = input("Ingresar pago secretaria:\n")
-        config['Pagos'] = {'escogedoras': escogedoras, 'varones': varones, 'secretaria': secrataria}
-        with open(path_file, 'w') as configfile:
-            config.write(configfile)
-
-    # Read the file
-    config.read(path_file)
-    return config
-
-
-def get_group_and_pay(user_list, config):
-    """
-        :param user_list: List of users
-        :return users:
-        """
-    print("Ingrese un tipo de grupo a generar:")
-    for group in groups:
-        print("{}.- {}".format(group, groups[group]))
-    group = int(input())
-    print("Grupo escogido:\t" + str(groups[group]))
-    users = config.get('Usuarios', str(groups[group]))
-    payment = config.get('Pagos', str(groups[group]))
-    users = [int(i) for i in users.split(',')]
-    names = [user_list[i] for i in users]
-    print("Usuarios ID:\t" + str(users))
-    print("Nombres:\t" + str(names))
-    return users, payment
-
-
-def input_date():
-    """
-        :return start_date, end_date
-        """
-    while True:
-        try:
-            start_date = input("Ingrese fecha inicial (dd/mm/yy):\n")
-            start_date = datetime.strptime(start_date, '%d/%m/%y')
-        except ValueError:
-            continue
-        else:
-            break
-
-    while True:
-        try:
-            end_date = input("Ingrese fecha final (dd/mm/yy):\n")
-            end_date = datetime.strptime(end_date, '%d/%m/%y')
-        except ValueError:
-            continue
-        else:
-            break
-    return start_date, end_date
 
 
 def filter_by_date(zk: ZK, users, start_date, end_date=None):
