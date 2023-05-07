@@ -110,6 +110,7 @@ def create_user_pdf(update_history, start_date, end_date, days, errors):
         :param end_date: end date to generate
         :param days: int days worked
         :param errors: int days with errors
+        :return pdf: Returns pdf file
         """
     # Initiate PDF
     pdf = FPDF()
@@ -175,7 +176,7 @@ def data_to_july(user_history, start_date, end_date):
     :param user_history: dict of user_history[i][date]['Hours']
     :param start_date: start of date
     :param end_date: end of date
-    :return dates, data, days, errors
+    :return dates, data, days, errors, update_history
     """
 
     dates = date_range(start_date, end_date)
