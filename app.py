@@ -2,12 +2,10 @@
 import uvicorn
 import argparse
 import matplotlib
-import matplotlib.pyplot as plt
 import locale
 import base64
 import io
-from typing import Optional
-from datetime import date
+from datetime import datetime, date
 from utils import *
 from pathlib import Path
 from fastapi import FastAPI, Request, Form

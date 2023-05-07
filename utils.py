@@ -1,11 +1,9 @@
 import sys
-import os
-import configparser
 import july
 import matplotlib.pyplot as plt
 from july.utils import date_range
 from fpdf import FPDF
-from datetime import datetime, timedelta
+from datetime import timedelta
 from zk import ZK
 
 sys.path.append("zk")
