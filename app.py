@@ -2,6 +2,7 @@
 import uvicorn
 import argparse
 import matplotlib
+import matplotlib.pyplot as plt
 import locale
 import base64
 import io
