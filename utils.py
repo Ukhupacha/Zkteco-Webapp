@@ -185,39 +185,14 @@ def attendance_to_dict(history):
     return employees
 
 
-def count_days(employees, payment):
-    """
-        Count days worked and error days
-        :param employees: dictionary of employees punch days
-        :param payment: salary per day
-        :return worked: [employees][days, errors]
-        """
-    # First pass for counting days
-    worked = {}
-    for employee, date in employees.items():
-        days = 0
-        errors = 0
-        for key, value in date.items():
-            if 'Hours' in value:
-                if value['Hours'] > 9:
-                    days += 1
-                elif value['Hours'] > 4:
-                    days += 0.5
-            else:
-                errors += 1
-        worked[employee] = [days, errors, float(int(days) * int(payment))]
-    # print(worked)
-    return worked
-
-
-def create_pdf(employees, worked, user_list, start_date, end_date):
+def create_user_pdf(update_history, start_date, end_date, days, errors):
     """
         Create PDF file from employees and worked days
-        :param employees: dict of employees
-        :param worked: dict of worked days, error days
-        :param user_list: dict of list of users
+        :param update_history: user dict with update history
         :param start_date: start date to generate
         :param end_date: end date to generate
+        :param days: int days worked
+        :param errors: int days with errors
         """
     # Initiate PDF
     pdf = FPDF()
@@ -226,18 +201,17 @@ def create_pdf(employees, worked, user_list, start_date, end_date):
     pdf.add_page()
     # Initiate Spaces on PDF
     h = 6
-    space = 35
-    week = 6
+    space = 30
+    week = 7
     pdf.set_font("Arial", style='BIU', size=15)
     title = 'Reporte de Asistencias ' + start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")
     pdf.cell(0, 10, txt=title, ln=1, align='C')
 
     # Created PDF object with
-    for employee, date in employees.items():
+    for employee, date in update_history.items():
 
         pdf.set_font("Arial", style='BIU', size=11)
-        header = user_list[int(employee.split()[0])] + " (" + str(worked[employee][0]) + \
-                 " días S/. " + str(worked[employee][2]) + ") - (" + str(worked[employee][1]) + " errores)"
+        header = str(days) + " días - " + str(errors) + " errores"
         pdf.cell(0, 6, txt=header, ln=1, border=1, align='C')
         count = 0
 
@@ -267,7 +241,7 @@ def create_pdf(employees, worked, user_list, start_date, end_date):
                 elif 1 in value:
                     t = value[1].strftime("%H:%M")
                 else:
-                    t = ''
+                    t = ' no marcó'
                 error = date + ' ' + t
                 pdf.set_font("Arial", style='B', size=8)
                 pdf.cell(space, h, txt=error, ln=ln, align='C')
@@ -278,10 +252,10 @@ def create_pdf(employees, worked, user_list, start_date, end_date):
     return pdf
 
 
-def data_to_july(employees, start_date, end_date):
+def data_to_july(user_history, start_date, end_date):
     """
     Verifies that all dates have a value
-    :param employees: dict of employees[i][date]['Hours']
+    :param user_history: dict of user_history[i][date]['Hours']
     :param start_date: start of date
     :param end_date: end of date
     :return dates, data, days, errors
@@ -291,7 +265,9 @@ def data_to_july(employees, start_date, end_date):
     data = []
     days = 0
     errors = 0
-    for key, value in employees.items():
+    updated_history = {}
+    for key, value in user_history.items():
+        updated_history[key] = {}
         for date in dates:
             if date in value:
                 if 'Hours' in value[date]:
@@ -310,10 +286,12 @@ def data_to_july(employees, start_date, end_date):
                 else:
                     data.append(float(10))
                     errors += 1
+                updated_history[key][date] = user_history[key][date]
             else:
                 data.append(float(0))
+                updated_history[key][date] = {}
 
-    return dates, data, days, errors
+    return dates, data, days, errors, updated_history
 
 
 def create_july_image(dates, data, days, errors, day_wage):

@@ -35,13 +35,14 @@ def home(request: Request):
 
 
 @app.post("/pdf")
-def generate_report(request: Request, start_date: date = Form(...), end_date: Optional[date] = Form(None)):
+def generate_report(id_worker: int = Form(...),  start_date: date = Form(...), end_date: date = Form(...)):
+    user = [id_worker]
     start_date = datetime(start_date.year, start_date.month, start_date.day)
     end_date = datetime(end_date.year, end_date.month, end_date.day)
-    attendance = filter_by_date(zk, user_list, start_date, end_date)
-    users_history = attendance_to_dict(attendance)
-    worked = count_days(users_history, 0)
-    pdf = create_pdf(users_history, worked, user_list, start_date, end_date)
+    attendance = filter_by_date(zk, user, start_date, end_date)
+    user_history = attendance_to_dict(attendance)
+    dates, data, days, errors, updated_history = data_to_july(user_history, start_date, end_date)
+    pdf = create_user_pdf(updated_history, start_date, end_date, days, errors)
     pdf_temp = "attendance.pdf"
     pdf.output(pdf_temp)
     name = "report.pdf"
@@ -57,7 +58,7 @@ async def attendance_image(request: Request, id_worker: int = Form(...), start_d
     end_date = datetime(end_date.year, end_date.month, end_date.day)
     attendance = filter_by_date(zk, user, start_date, end_date)
     user_history = attendance_to_dict(attendance)
-    dates, data, days, errors = data_to_july(user_history, start_date, end_date)
+    dates, data, days, errors, updated_history = data_to_july(user_history, start_date, end_date)
 
     axes = create_july_image(dates, data, days, errors, day_wage)
     fig = axes.get_figure()
