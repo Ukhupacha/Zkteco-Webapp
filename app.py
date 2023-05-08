@@ -23,7 +23,6 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 app = FastAPI()
 zk = ZK('zkteco.intranet', port=4370, timeout=5, password=0, force_udp=False, ommit_ping=False)
 user_list = get_user_list(zk)
-image_path = 'image.png'
 matplotlib.use('agg')
 
 
