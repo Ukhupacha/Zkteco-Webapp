@@ -27,7 +27,6 @@ image_path = 'image.png'
 matplotlib.use('agg')
 
 
-# Dependency
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("base.html",
