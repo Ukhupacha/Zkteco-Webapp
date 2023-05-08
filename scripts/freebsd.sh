@@ -7,7 +7,7 @@ cat > /etc/rc.d/attendance << EOF
 #!/bin/sh
 
 # PROVIDE: attendance
-# REQUIRE:
+# REQUIRE: DAEMON
 # KEYWORD: shutdown
 
 . /etc/rc.subr
