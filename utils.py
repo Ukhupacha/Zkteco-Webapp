@@ -122,7 +122,7 @@ def create_user_pdf(update_history, start_date, end_date, days, errors):
     space = 30
     week = 7
     pdf.set_font("Arial", style='BIU', size=15)
-    title = 'Reporte de Asistencias ' + start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")
+    title = 'Reporte de Asistencias ' + start_date.strftime("%d/%m/%Y") + " - " + end_date.strftime("%d/%m/%Y")
     pdf.cell(0, 10, txt=title, ln=1, align='C')
 
     # Created PDF object with

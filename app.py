@@ -10,9 +10,8 @@ import sys
 from datetime import datetime, date
 from utils import get_user_list, filter_by_date, attendance_to_dict, create_user_pdf, data_to_july, create_july_image
 from pathlib import Path
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Response,BackgroundTasks
 from starlette.templating import Jinja2Templates
-from starlette.responses import FileResponse
 from zk import ZK
 
 sys.path.append("zk")
@@ -36,7 +35,8 @@ def home(request: Request):
 
 
 @app.post("/pdf")
-def generate_report(id_worker: int = Form(...),  start_date: date = Form(...), end_date: date = Form(...)):
+def generate_report(background_tasks: BackgroundTasks,
+                    id_worker: int = Form(...),  start_date: date = Form(...), end_date: date = Form(...)):
     user = [id_worker]
     start_date = datetime(start_date.year, start_date.month, start_date.day)
     end_date = datetime(end_date.year, end_date.month, end_date.day)
@@ -44,11 +44,13 @@ def generate_report(id_worker: int = Form(...),  start_date: date = Form(...), e
     user_history = attendance_to_dict(attendance)
     dates, data, days, errors, updated_history = data_to_july(user_history, start_date, end_date)
     pdf = create_user_pdf(updated_history, start_date, end_date, days, errors)
-    pdf_temp = "attendance.pdf"
-    pdf.output(pdf_temp)
-    name = "report.pdf"
-
-    return FileResponse(pdf_temp, media_type="application/pdf", filename=name)
+    pdf_string = pdf.output(dest='S').encode('latin-1')
+    pdf_buff = io.BytesIO(pdf_string)
+    background_tasks.add_task(pdf_buff.close)
+    filename = user_list[id_worker] + '.pdf'
+    headers = 'attachment; filename=' + filename
+    headers = {'Content-Disposition': headers}
+    return Response(pdf_buff.getvalue(), headers=headers, media_type='application/pdf')
 
 
 @app.post("/attendance")
