@@ -17,15 +17,15 @@ rcvar=attendance_enable
 
 load_rc_config \$name
 
-: ${attendance_enable="NO"}
-: ${attendance_home_dir:="/root/Zkteco"}
+: \${attendance_enable="NO"}
+: \${attendance_home_dir:="/root/Zkteco"}
 
 pidfile="/var/run/\${name}.pid"
 procname=/root/Zkteco/app.py
 command=/usr/sbin/daemon
 command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${attendance_home_dir} --logfile=default"
 
-run_rc_command "$1"
+run_rc_command "\$1"
 EOF
 
 chmod +x /etc/rc.d/attendance
