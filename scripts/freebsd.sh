@@ -2,7 +2,7 @@
 pkg install -y python py39-pip py39-matplotlib
 pip install -r ../requirements.txt
 
-cat > /usr/local/sbin/attendance << EOF
+cat > /etc/rc.d/attendance << EOF
 #!/bin/sh
 #
 # PROVIDE: attendance
@@ -14,7 +14,7 @@ cat > /usr/local/sbin/attendance << EOF
 name=attendance
 rcvar=attendance_enable
 
-command="/usr/local/sbin/attendance"
+command="/root/Zkteco/python app.py"
 
 load_rc_config $name
 
@@ -25,8 +25,8 @@ load_rc_config $name
 attendance_enable=${attendance_enable-"NO"}
 pidfile=${attendance_pidfile-"/var/run/attendance.pid"}
 
-run_rc_command "$1"
+run_rc_command "\$1"
 EOF
 
-chmod +x /usr/local/sbin/attendance
+chmod +x /etc/rc.d/attendance
 service attendance start
