@@ -142,23 +142,26 @@ def create_user_pdf(update_history, start_date, end_date, days, errors):
                 ln = 0
             date = key.strftime("%d/%m")
             if 'Hours' in value:
-                if value['Hours'] > 9:
-                    pdf.set_text_color(0, 0, 0)
-                elif value['Hours'] > 4:
-                    pdf.set_text_color(255, 0, 0)
-                else:
+                if value['Hours'] > 12:
                     pdf.set_text_color(0, 0, 255)
-                input = value[0].strftime("%H:%M")
-                output = value[1].strftime("%H:%M")
-                text = date + ' ' + input + '-' + output
+                elif value['Hours'] > 9:
+                    pdf.set_text_color(0, 0, 127)
+                elif value['Hours'] > 4:
+                    pdf.set_text_color(0, 0, 63)
+                else:
+                    pdf.set_text_color(0, 0, 0)
+                checkin = value[0].strftime("%H:%M")
+                checkout = value[1].strftime("%H:%M")
+                text = date + ' ' + checkin + '-' + checkout
                 pdf.cell(space, h, txt=text, ln=ln, align='C')
             else:
-                pdf.set_text_color(0, 0, 0)
+                pdf.set_text_color(255, 0, 0)
                 if 0 in value:
                     t = value[0].strftime("%H:%M")
                 elif 1 in value:
                     t = value[1].strftime("%H:%M")
                 else:
+                    pdf.set_text_color(0, 0, 0)
                     t = ' no marcó'
                 error = date + ' ' + t
                 pdf.set_font("Arial", style='B', size=8)
