@@ -13,5 +13,6 @@ command="/root/Zkteco/app.py"
 pidfile="/run/${RC_SVCNAME}.pid"
 command_background=true
 EOF
+chmod +x /etc/init.d/attendance
 rc-update add attendance
 rc-service attendance start
