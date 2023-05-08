@@ -4,9 +4,9 @@ pip install -r ../requirements.txt
 
 cat > /etc/rc.d/attendance << EOF
 #!/bin/sh
-#
+
 # PROVIDE: attendance
-# REQUIRE: DAEMON
+# REQUIRE:
 # KEYWORD: shutdown
 
 . /etc/rc.subr
@@ -14,16 +14,15 @@ cat > /etc/rc.d/attendance << EOF
 name=attendance
 rcvar=attendance_enable
 
-command="/root/Zkteco/python app.py"
-
 load_rc_config \$name
 
-#
-# DO NOT CHANGE THESE DEFAULT VALUES HERE
-# SET THEM IN THE /etc/rc.conf FILE
-#
-attendance_enable=\${attendance_enable-"NO"}
-pidfile=\${attendance_pidfile-"/var/run/attendance.pid"}
+: ${attendance_enable="NO"}
+: ${attendance_home_dir:="/root/Zkteco"}
+
+pidfile="/var/run/\${name}.pid"
+procname="python /root/Zkteco/app.py"
+command=/usr/sbin/daemon
+command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${attendance_home_dir} --logfile=default"
 
 run_rc_command "\$1"
 EOF
