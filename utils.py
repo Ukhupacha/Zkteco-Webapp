@@ -113,29 +113,29 @@ def create_user_pdf(update_history, start_date, end_date, days, errors):
         :return pdf: Returns pdf file
         """
     # Initiate PDF
-    pdf = FPDF()
+    pdf = FPDF(orientation="landscape")
     pdf.set_left_margin(1)
     pdf.set_right_margin(1)
     pdf.add_page()
     # Initiate Spaces on PDF
-    h = 6
-    space = 30
+    h = 10
+    space = 42
     week = 7
-    pdf.set_font("Arial", style='BIU', size=15)
+    pdf.set_font("Arial", style='BIU', size=17)
     title = 'Reporte de Asistencias ' + start_date.strftime("%d/%m/%Y") + " - " + end_date.strftime("%d/%m/%Y")
     pdf.cell(0, 10, txt=title, ln=1, align='C')
 
     # Created PDF object with
     for employee, date in update_history.items():
 
-        pdf.set_font("Arial", style='BIU', size=11)
+        pdf.set_font("Arial", style='BIU', size=15)
         header = str(days) + " días - " + str(errors) + " errores"
         pdf.cell(0, 6, txt=header, ln=1, border=1, align='C')
         count = 0
 
         for key, value in date.items():
             count += 1
-            pdf.set_font("Arial", size=8)
+            pdf.set_font("Arial", size=13)
             if count % week == 0:
                 ln = 1
             else:
@@ -164,7 +164,7 @@ def create_user_pdf(update_history, start_date, end_date, days, errors):
                     pdf.set_text_color(0, 0, 0)
                     t = ' no marcó'
                 error = date + ' ' + t
-                pdf.set_font("Arial", style='B', size=8)
+                pdf.set_font("Arial", style='B', size=13)
                 pdf.cell(space, h, txt=error, ln=ln, align='C')
 
         pdf.cell(0, 4, txt=' ', ln=1, align='C')
