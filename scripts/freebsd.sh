@@ -30,4 +30,5 @@ run_rc_command "\$1"
 EOF
 
 chmod +x /usr/local/etc/rc.d/attendance
+service attendance enable
 service attendance start
