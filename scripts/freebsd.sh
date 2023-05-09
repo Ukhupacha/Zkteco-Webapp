@@ -2,7 +2,7 @@
 pkg install -y python py39-pip py39-matplotlib vim
 pip install -r ../requirements.txt
 
-cat > /etc/rc.d/attendance << EOF
+cat > /usr/local/etc/rc.d/attendance << EOF
 
 #!/bin/sh
 
@@ -26,5 +26,5 @@ command_interpreter=/usr/local/bin/python
 run_rc_command "\$1"
 EOF
 
-chmod +x /etc/rc.d/attendance
+chmod +x /usr/local/etc/rc.d/attendance
 service attendance start
