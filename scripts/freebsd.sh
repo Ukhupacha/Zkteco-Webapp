@@ -13,7 +13,7 @@ cat > /usr/local/etc/rc.d/attendance << EOF
 . /etc/rc.subr
 
 name=attendance
-rcvar=`set_rcvar`
+rcvar=\`set_rcvar\`
 
 load_rc_config \$name
 
