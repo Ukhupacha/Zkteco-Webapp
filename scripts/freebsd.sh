@@ -21,7 +21,7 @@ load_rc_config \$name
 : \${attendance_home_dir:="/root/Zkteco/"}
 
 pidfile="/var/run/\${name}.pid"
-procname="python /root/Zkteco/app.py"
+procname="/root/Zkteco/app.py"
 command=/usr/sbin/daemon
 command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${attendance_home_dir} --logfile=default"
 
