@@ -40,6 +40,15 @@ Otherwise, if you want to run it on your pc and try it
 python app.py -a 127.0.0.1 -p 8000
 ```
 
+## UI in 127.0.0.1:8000
+![alt text](./images/ui.png)
+
+## Calendar Report of attendance
+![alt text](./images/july-image.png)
+
+## PDF Report with time punches
+![alt text](./images/pdf-report.png)
+
 # Compatible devices
 
 ```
