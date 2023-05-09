@@ -7,7 +7,7 @@ cat > /usr/local/etc/rc.d/attendance << EOF
 #!/bin/sh
 
 # PROVIDE: attendance
-# REQUIRE: DAEMON
+# REQUIRE: LOGIN
 # KEYWORD: shutdown
 
 . /etc/rc.subr
@@ -18,12 +18,15 @@ rcvar=attendance_enable
 load_rc_config \$name
 
 : \${attendance_enable="NO"}
-
+: \${attendance_home_dir:="/root/Zkteco/"}
 
 pidfile="/var/run/\${name}.pid"
-command="/root/Zkteco/app.py"
-command_interpreter=/usr/local/bin/python
+procname="python /root/Zkteco/app.py"
+command=/usr/sbin/daemon
+command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${syncthing_home_dir} --logfile=default"
+
 run_rc_command "\$1"
+
 EOF
 
 chmod +x /usr/local/etc/rc.d/attendance
