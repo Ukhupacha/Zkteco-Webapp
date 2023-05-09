@@ -13,7 +13,7 @@ cat > /usr/local/etc/rc.d/attendance << EOF
 . /etc/rc.subr
 
 name=attendance
-rcvar=attendance_enable
+rcvar=`set_rcvar`
 
 load_rc_config \$name
 
@@ -21,9 +21,10 @@ load_rc_config \$name
 : \${attendance_home_dir:="/root/Zkteco/"}
 
 pidfile="/var/run/\${name}.pid"
+attendance_user="root"
 procname="python /root/Zkteco/app.py"
 command=/usr/sbin/daemon
-command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${attendance_home_dir} --logfile=default"
+command_args="-c -f -P \${pidfile} -u \${attendance_user} -r \${procname} --home=\${attendance_home_dir} --logfile=default"
 
 run_rc_command "\$1"
 
