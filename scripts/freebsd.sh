@@ -23,7 +23,7 @@ load_rc_config \$name
 pidfile="/var/run/\${name}.pid"
 procname="python /root/Zkteco/app.py"
 command=/usr/sbin/daemon
-command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${syncthing_home_dir} --logfile=default"
+command_args="-f -p \${pidfile} -u attendance \${procname} --home=\${attendance_home_dir} --logfile=default"
 
 run_rc_command "\$1"
 
