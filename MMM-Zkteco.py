@@ -5,6 +5,15 @@ from zk import ZK
 from datetime import datetime, date
 sys.path.append("zk")
 
+
+def to_node(message):
+    try:
+        print(json.dumps(message))
+    except Exception:
+        pass
+    sys.stdout.flush()
+
+
 if __name__ == "__main__":
     zk = ZK('zkteco.intranet', port=4370, timeout=5, password=0, force_udp=False, ommit_ping=False)
     zk.connect()
@@ -23,9 +32,5 @@ if __name__ == "__main__":
 
     zk.enable_device()
     zk.disconnect()
-    try:
-        print(json.dumps(final_dict))
-    except Exception:
-        pass
+    to_node(final_dict)
 
-    sys.stdout.flush()
