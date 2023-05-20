@@ -1,0 +1,14 @@
+{
+  "name" : "MMM-Zkteco",
+  "version" : "1.0.0",
+  "description": "Return list form Zkteco device",
+  "main": "MMM-Zkteco.js",
+  "author": "ukhu",
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "dependencies": {
+    "python-shell": "latest"
+  }
+}
