@@ -27,7 +27,8 @@ module.exports = NodeHelper.create( {
         if (notification == "zkteco-config") {
             // save payload config info
             this.config = payload;
-        } else if (notification=="zkteco-attendance") {
+        } 
+        else if (notification=="zkteco-attendance") {
             this.getattendance();
         }
     },
