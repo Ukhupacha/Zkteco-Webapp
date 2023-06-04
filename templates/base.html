@@ -80,7 +80,9 @@
 
         {% if img %}
         <h2 class="ui center aligned header">{{title[0]}}: {{title[1]}}</h2>
-            <img src="data:image/png;base64,{{ img | safe }}" />
+            <center>
+                <img src="data:image/png;base64,{{ img | safe }}"/>
+            </center>
         {% endif %}
     </div>
 </body>
