@@ -8,44 +8,75 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    .column {
+      float: left;
+      padding: 10px;
+      height: 300px; /* Should be removed. Only for demonstration */
+    }
+
+    .left {
+      width: 35%;
+    }
+
+    .right {
+      width: 65%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    </style>
 </head>
 
 <body>
     <div style="margin-top: 50px;" class="ui container">
-        <h1 class="ui center aligned header">Cálculo de asistencias y sueldo</h1>
-           <p class="ui big header">Trabajadores  </p>
-            {% for user in user_list %}
-                {{user}} | {{user_list[user]}} <br>
-            {% endfor %}
+        <h1 class="ui center aligned header">Asistencias</h1>
+        <div class="row">
+            <div class="column left">
+                <h2>Trabajadores</h2>
+                {% for user in user_list %}
+                    {{user}} &emsp;|&emsp; {{user_list[user]}} <br>
+                {% endfor %}
+            </div>
+            <div class="column right">
+                <h2>Ingrese número de trabajador y fechas</h2>
+                <form class="ui form" method="post">
+                    <div class="field">
+                        <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td><label>ID de Trabajador</label></td>
+                                <td><input type="number" name="id_worker" placeholder="Ingresar trabajador" style="width:200px"/></td>
+                            </tr>
+                            <tr>
+                                <td><label>Fecha inicial</label></td>
+                                <td><input type="date"  name="start_date" placeholder="Fecha inicial" style="width:200px"></td>
+                            </tr>
+                            <tr>
+                                <td><label>Fecha final</label></td>
+                                <td><input type="date"  name="end_date" placeholder="Fecha final" style="width:200px"></td>
+                            </tr>
+                            <tr>
+                                <td><label>Sueldo por día</label></td>
+                                <td><input type="number"  name="day_wage" placeholder="Sueldo por día" style="width:200px"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <button class="ui blue button" formaction="/attendance" type="submit">Calcular asistencias</button>
+                    <button class="ui red button" formaction="/pdf" type="submit">Generar Reporte</button>
+                </form>
+            </div>
+        </div>
 
         <hr>
-
-
-        <form class="ui form" method="post">
-            <div class="field">
-                <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                        <td><label>ID de Trabajador</label></td>
-                        <td><input type="number" name="id_worker" placeholder="Ingresar trabajador" style="width:200px"/></td>
-                    </tr>
-                    <tr>
-                        <td><label>Fecha inicial</label></td>
-                        <td><input type="date"  name="start_date" placeholder="Fecha inicial" style="width:200px"></td>
-                    </tr>
-                    <tr>
-                        <td><label>Fecha final</label></td>
-                        <td><input type="date"  name="end_date" placeholder="Fecha final" style="width:200px"></td>
-                    </tr>
-                    <tr>
-                        <td><label>Sueldo por día</label></td>
-                        <td><input type="number"  name="day_wage" placeholder="Sueldo por día" style="width:200px"></td>
-                    </tr>
-                </table>
-            </div>
-            <button class="ui blue button" formaction="/attendance" type="submit">Calcular asistencias</button>
-            <button class="ui red button" formaction="/pdf" type="submit">Generar Reporte</button>
-        </form>
-
 
         {% if img %}
         <h1>{{title[0]}}</h1>
