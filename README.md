@@ -15,32 +15,38 @@ It is intended to work on an Alpine's Linux os, but it can work anywhere with th
 
 # Installation 
 
-
-There is a script for Alpine on script/alpine.sh that will set up the dependencies and create a service.
+## Alpine linux
+There is a script for Alpine on scripts/alpine.sh that will set up the dependencies and create a service.
 ``` bash
-sh script/alpine.sh
+sh scripts/alpine.sh
 ```
+Start the service with 
+``` bash
+rc-service attendance start
+```
+## Freebsd 
+There is a script for Freebsd on scripts/freebsd.sh that will set up the dependencies and create a service.
 
+``` bash
+sh scripts/freebsd.sh
+```
+Start the service with 
+``` bash
+service supervisord start
+```
+## Test without service
 Clone the repo and install the dependencies on requirements.txt
 ``` bash
 pip3 install -r requirements.txx
 ```
 
-
-## Basic Usage
-
-If you have installed it on Alpine, just start the created service with.
-You can navigate to the ip of the web server you created.
-```bash
-rc-service attendance start
-```
-
-Otherwise, if you want to run it on your pc and try it
+You can run it on your pc and try it
 ```commandline
 python app.py -a 127.0.0.1 -p 8000
 ```
+You would need to change the ip address of your device in app.py 'zkteco.intranet' by default
 
-## UI in 127.0.0.1:8000
+## Webapp shows in 127.0.0.1:8000
 ![alt text](./images/ui.png)
 
 ## Calendar Report of attendance

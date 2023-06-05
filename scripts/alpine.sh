@@ -9,7 +9,7 @@ cact >  /etc/init.d/attendance << EOF
 
 name="attendance"
 description="Attendance zkteco"
-command="/root/Zkteco/app.py"
+command="/root/Zkteco-Webapp/app.py"
 pidfile="/run/\${RC_SVCNAME}.pid"
 command_background=true
 EOF

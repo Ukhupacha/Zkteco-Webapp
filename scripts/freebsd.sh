@@ -4,8 +4,8 @@ pip install -r ../requirements.txt
 # possibility 2:
 echo "
 [program:attendance]
-command=/root/Zkteco/app.py
-directory=/root/Zkteco
+command=/root/Zkteco-Webapp/app.py
+directory=/root/Zkteco-Webapp
 autostart=true
 " >> /usr/local/etc/supervisord.conf
 service supervisord enable
