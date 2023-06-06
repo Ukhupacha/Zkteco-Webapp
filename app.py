@@ -28,6 +28,7 @@ matplotlib.use('agg')
 
 @app.get("/")
 def home(request: Request):
+    user_list = get_user_list(zk)
     return templates.TemplateResponse("base.html",
                                       {"request": request, "user_list": user_list})
 
