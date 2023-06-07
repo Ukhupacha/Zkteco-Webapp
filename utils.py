@@ -34,7 +34,7 @@ def get_user_list(zk: ZK) -> dict:
 
     print('Enabling device ...')
     zk.enable_device()
-    return user_list
+    return dict(sorted(user_list.items()))
 
 
 def filter_by_date(zk: ZK, users, start_date, end_date=None):
