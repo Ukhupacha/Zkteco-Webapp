@@ -1,0 +1,9 @@
+---
+version: "2.1"
+services:
+  zkteco:
+    image: zkteco:latest
+    container_name: zkteco
+    restart: unless-stopped
+    ports:
+      - 5000:80

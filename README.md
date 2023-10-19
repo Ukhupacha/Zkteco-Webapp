@@ -14,7 +14,8 @@ It is intended to work on an Alpine's Linux os, but it can work anywhere with th
 
 
 # Installation 
-
+## Requirements
+python 3.8
 ## Alpine linux
 There is a script for Alpine on scripts/alpine.sh that will set up the dependencies and create a service.
 ``` bash
