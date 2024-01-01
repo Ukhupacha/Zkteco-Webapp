@@ -10,7 +10,7 @@ import sys
 from datetime import datetime, date
 from utils import get_user_list, filter_by_date, attendance_to_dict, create_user_pdf, data_to_july, create_july_image
 from pathlib import Path
-from fastapi import FastAPI, Request, Form, Response,BackgroundTasks
+from fastapi import FastAPI, Request, Form, Response, BackgroundTasks
 from starlette.templating import Jinja2Templates
 from zk import ZK
 
@@ -21,21 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 app = FastAPI()
-zk = ZK('zkteco.intranet', port=4370, timeout=5, password=0, force_udp=False, ommit_ping=False)
-user_list = get_user_list(zk)
 matplotlib.use('agg')
 
 
 @app.get("/")
 def home(request: Request):
-    user_list = get_user_list(zk)
     return templates.TemplateResponse("base.html",
                                       {"request": request, "user_list": user_list})
 
 
 @app.post("/pdf")
 async def generate_report(background_tasks: BackgroundTasks,
-                          id_worker: int = Form(...),  start_date: date = Form(...), end_date: date = Form(...)):
+                          id_worker: int = Form(...), start_date: date = Form(...), end_date: date = Form(...)):
     user = [id_worker]
     start_date = datetime(start_date.year, start_date.month, start_date.day)
     end_date = datetime(end_date.year, end_date.month, end_date.day)
@@ -83,6 +80,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Attendance app')
     parser.add_argument('-a', '--address', help='Host address', default='0.0.0.0')
     parser.add_argument('-p', '--port', type=int, help='Host port', default=80)
+    parser.add_argument('-z', '--zkteco', help='Zkteco address', default='10.1.1.40')
+    parser.add_argument('-zp', '--zkteco_port', type=int, help='Zkteco port', default=4370)
 
     args = parser.parse_args()
+    zk = ZK(args.zkteco, port=args.zkteco_port, timeout=5, password=0, force_udp=False, ommit_ping=False)
+    user_list = get_user_list(zk)
     uvicorn.run(app, host=args.address, port=args.port)
