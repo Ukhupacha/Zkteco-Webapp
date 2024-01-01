@@ -54,7 +54,7 @@ async def generate_report(background_tasks: BackgroundTasks,
 
 @app.post("/attendance")
 async def attendance_image(request: Request, id_worker: int = Form(...), start_date: date = Form(...),
-                           end_date: date = Form(...), day_wage: int = Form(...)):
+                           end_date: date = Form(...)):
     user = [id_worker]
     start_date = datetime(start_date.year, start_date.month, start_date.day)
     end_date = datetime(end_date.year, end_date.month, end_date.day)
@@ -62,7 +62,7 @@ async def attendance_image(request: Request, id_worker: int = Form(...), start_d
     user_history = attendance_to_dict(attendance)
     dates, data, days, errors, updated_history = data_to_july(user_history, start_date, end_date)
 
-    axes = create_july_image(dates, data, days, errors, day_wage)
+    axes = create_july_image(dates, data, days, errors)
     fig = axes.get_figure()
     plt.axes(axes)
     img_buf = io.BytesIO()

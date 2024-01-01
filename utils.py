@@ -215,18 +215,17 @@ def data_to_july(user_history, start_date, end_date):
     return dates, data, days, errors, updated_history
 
 
-def create_july_image(dates, data, days, errors, day_wage):
+def create_july_image(dates, data, days, errors):
     """
     Creates a plot image with the july library.
     :param dates: list of dates
     :param data: list of data point for each date
     :param days: int of days worked
     :param errors: int of errors
-    :param day_wage: wage per day
     :return axes: matplotlib axes
     """
     figsize = (5, 5)
-    title = str(days) + " días (S./ " + str(day_wage * days) + ") - " + str(errors) + " errores"
+    title = str(days) + " días - " + str(errors) + " errores"
 
     fig, ax = plt.subplots(figsize=figsize, dpi=100)
     axes = july.heatmap(dates, data, month_grid=True,
