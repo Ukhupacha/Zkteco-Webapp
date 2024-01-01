@@ -47,6 +47,14 @@ python app.py -a 127.0.0.1 -p 8000
 ```
 You would need to change the ip address of your device in app.py 'zkteco.intranet' by default
 
+# Docker
+## Install
+There is a script for docker
+``` bash
+./build.sh
+```
+This script will build zkteco:latest after that run docker-compose up -d
+
 ## Webapp shows in 127.0.0.1:8000
 ![alt text](./images/ui.png)
 
