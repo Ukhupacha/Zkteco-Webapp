@@ -27,6 +27,16 @@ matplotlib.use('agg')
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("base.html",
+                                      {"request": request})
+
+
+@app.post("/connect")
+def home(request: Request, ip_zkteco: str = Form(...), port_zkteco: int = Form(...)):
+    global zk
+    global user_list
+    zk = ZK(ip_zkteco, port_zkteco, timeout=5, password=0, force_udp=False, ommit_ping=False)
+    user_list = get_user_list(zk)
+    return templates.TemplateResponse("base.html",
                                       {"request": request, "user_list": user_list})
 
 
@@ -80,10 +90,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Attendance app')
     parser.add_argument('-a', '--address', help='Host address', default='0.0.0.0')
     parser.add_argument('-p', '--port', type=int, help='Host port', default=80)
-    parser.add_argument('-z', '--zkteco', help='Zkteco address', default='10.1.1.40')
-    parser.add_argument('-zp', '--zkteco_port', type=int, help='Zkteco port', default=4370)
 
     args = parser.parse_args()
-    zk = ZK(args.zkteco, port=args.zkteco_port, timeout=5, password=0, force_udp=False, ommit_ping=False)
-    user_list = get_user_list(zk)
     uvicorn.run(app, host=args.address, port=args.port)

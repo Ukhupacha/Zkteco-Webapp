@@ -41,6 +41,23 @@
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">Asistencias</h1>
         <div class="row">
+            <h2>Dispositivo Zkteco</h2>
+            <form class="ui form" method="post" >
+                <div class="field">
+                    <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><label>Dirección IP</label></td>
+                            <td><input type="text" name="ip_zkteco" placeholder="10.1.1.40" style="width:200px"></td>
+                            <td><label>Puerto</label></td>
+                            <td><input type="text" name="port_zkteco" placeholder="4370" style="width:250px"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="ui blue button" formaction="/connect" type="submit">Conectar Zkteco</button>
+            </form>
+        </div>
+        <hr>
+        <div class="row" >
             <h2>Ingrese número de trabajador y fechas</h2>
             <form class="ui form" method="post">
                 <div class="field">
@@ -68,7 +85,6 @@
                 <button class="ui blue button" formaction="/attendance" type="submit">Calcular asistencias</button>
                 <button class="ui red button" formaction="/pdf" type="submit">Generar Reporte</button>
             </form>
-
         </div>
 
         <hr>
