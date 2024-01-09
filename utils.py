@@ -29,8 +29,10 @@ def get_user_list(zk: ZK) -> dict:
         # privilege = 'User'
         # if user.privilege == const.USER_ADMIN:
         #    privilege = 'Admin'
-        print('    {}\t\t{}'.format(user.user_id, user.name))
-        user_list[int(user.user_id)] = user.name
+        print('{}\t\t{}\t{}\t{}\t{}\t{}\t{}'.format(user.uid, user.name, user.privilege, user.password,
+                                                    user.group_id, user.user_id, user.card))
+        user_list[int(user.uid)] = [user.name, user.privilege, user.password,
+                                    user.group_id, user.user_id, user.card]
 
     print('Enabling device ...')
     zk.enable_device()
