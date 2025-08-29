@@ -56,7 +56,7 @@ async def update(request: Request, id_worker_update: int = Form(...), new_name: 
                 group_id=user[3], user_id=str(id_worker_update), card=user[5])
 
     user_list = get_user_list(zk)
-    return templates.TemplateResponse("user.html",
+    return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
 
 
