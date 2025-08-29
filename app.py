@@ -40,6 +40,11 @@ def home(request: Request, ip_zkteco: str = Form(...), port_zkteco: int = Form(.
                                       {"request": request, "user_list": user_list})
 
 
+@app.post("/return")
+def home(request: Request):
+    return templates.TemplateResponse("attendance.html",
+                                      {"request": request, "user_list": user_list})
+
 @app.post("/edit")
 def home(request: Request):
     return templates.TemplateResponse("update.html",
