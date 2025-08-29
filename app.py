@@ -71,8 +71,7 @@ async def update(request: Request, name: str = Form(...)):
     global zk
     global user_list
     user = user_list[id_worker]
-    zk.delete_user(uid=id_worker)
-
+    zk.set_user(name=name)
     user_list = get_user_list(zk)
     return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
