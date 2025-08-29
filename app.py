@@ -52,41 +52,44 @@ def home(request: Request):
 
 
 @app.post("/updateUser")
-async def update(request: Request, id_worker_update: int = Form(...), new_name: str = Form(...)):
+async def update(request: Request, id_worker: int = Form(...), name: str = Form(...)):
 
     global zk
     global user_list
-    user = user_list[id_worker_update]
-    zk.set_user(uid=id_worker_update, name=new_name, privilege=user[1], password=user[2],
-                group_id=user[3], user_id=str(id_worker_update), card=user[5])
+    user = user_list[id_worker]
+    zk.set_user(uid=id_worker, name=name, privilege=user[1], password=user[2],
+                group_id=user[3], user_id=str(id_worker), card=user[5])
 
     user_list = get_user_list(zk)
     return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
+
 
 @app.post("/addUser")
-async def update(request: Request, id_worker_update: int = Form(...), new_name: str = Form(...)):
+async def update(request: Request, name: str = Form(...)):
 
     global zk
     global user_list
-    user = user_list[id_worker_update]
-    zk.delete_user(uid=id_worker_update)
+    user = user_list[id_worker]
+    zk.delete_user(uid=id_worker)
 
     user_list = get_user_list(zk)
     return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
+
 
 @app.post("/deleteUser")
-async def update(request: Request, id_worker_update: int = Form(...), new_name: str = Form(...)):
+async def update(request: Request, id_worker: int = Form(...)):
 
     global zk
     global user_list
-    user = user_list[id_worker_update]
-    zk.delete_user(uid=id_worker_update)
+    user = user_list[id_worker]
+    zk.delete_user(uid=id_worker)
 
     user_list = get_user_list(zk)
     return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
+
 
 @app.post("/pdf")
 async def generate_report(background_tasks: BackgroundTasks,
