@@ -18,11 +18,13 @@
                 </tr>
                 <tr>
                     <td><label>Nuevo Nombre</label></td>
-                    <td><input type="text"  name="new_name" placeholder="Nuevo Nombre" style="width:200px"></td>
+                    <td><input type="text"  name="name" placeholder="Nombre" style="width:200px"></td>
                 </tr>
             </table>
         </div>
-        <button class="ui blue button" formaction="/update" type="submit">Actualizar trabajador</button>
+        <button class="ui blue button" formaction="/updateUser" type="submit">Actualizar trabajador</button>
+        <button class="ui blue button" formaction="/addUser" type="submit">Agregar trabajador</button>
+        <button class="ui blue button" formaction="/deleteUser" type="submit">Eliminar trabajador</button>
         <button class="ui red button" formaction="/return" type="submit">Retornar</button>
     </form>
 </div>

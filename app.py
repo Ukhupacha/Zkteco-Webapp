@@ -51,7 +51,7 @@ def home(request: Request):
                                       {"request": request, "user_list": user_list})
 
 
-@app.post("/update")
+@app.post("/updateUser")
 async def update(request: Request, id_worker_update: int = Form(...), new_name: str = Form(...)):
 
     global zk
@@ -64,6 +64,29 @@ async def update(request: Request, id_worker_update: int = Form(...), new_name: 
     return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
 
+@app.post("/addUser")
+async def update(request: Request, id_worker_update: int = Form(...), new_name: str = Form(...)):
+
+    global zk
+    global user_list
+    user = user_list[id_worker_update]
+    zk.delete_user(uid=id_worker_update)
+
+    user_list = get_user_list(zk)
+    return templates.TemplateResponse("update.html",
+                                      {"request": request, "user_list": user_list})
+
+@app.post("/deleteUser")
+async def update(request: Request, id_worker_update: int = Form(...), new_name: str = Form(...)):
+
+    global zk
+    global user_list
+    user = user_list[id_worker_update]
+    zk.delete_user(uid=id_worker_update)
+
+    user_list = get_user_list(zk)
+    return templates.TemplateResponse("update.html",
+                                      {"request": request, "user_list": user_list})
 
 @app.post("/pdf")
 async def generate_report(background_tasks: BackgroundTasks,
