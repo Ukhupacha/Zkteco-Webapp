@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block connect %}
+<div class="row">
+    <h2>Dispositivo Zkteco</h2>
+    <form class="ui form" method="post" >
+        <div class="field">
+            <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td><label>Dirección IP</label></td>
+                    <td><input type="text" name="ip_zkteco" placeholder="10.1.1.40" style="width:200px"></td>
+                    <td><label>Puerto</label></td>
+                    <td><input type="text" name="port_zkteco" placeholder="4370" style="width:250px"></td>
+                </tr>
+            </table>
+        </div>
+        <button class="ui red button" formaction="/connect" type="submit">Connectar Zkteco</button>
+
+    </form>
+</div>
+
+{% endblock %}

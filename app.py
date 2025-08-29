@@ -16,7 +16,6 @@ from zk import ZK
 
 sys.path.append("zk")
 
-locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
@@ -26,7 +25,7 @@ global zk
 global user_list
 @app.get("/")
 def home(request: Request):
-    return templates.TemplateResponse("base.html",
+    return templates.TemplateResponse("connect.html",
                                       {"request": request})
 
 
@@ -37,7 +36,13 @@ def home(request: Request, ip_zkteco: str = Form(...), port_zkteco: int = Form(.
     global user_list
     zk = ZK(ip_zkteco, port_zkteco, timeout=5, password=0, force_udp=False, ommit_ping=False)
     user_list = get_user_list(zk)
-    return templates.TemplateResponse("base.html",
+    return templates.TemplateResponse("attendance.html",
+                                      {"request": request, "user_list": user_list})
+
+
+@app.post("/edit")
+def home(request: Request):
+    return templates.TemplateResponse("update.html",
                                       {"request": request, "user_list": user_list})
 
 
@@ -51,7 +56,7 @@ async def update(request: Request, id_worker_update: int = Form(...), new_name: 
                 group_id=user[3], user_id=str(id_worker_update), card=user[5])
 
     user_list = get_user_list(zk)
-    return templates.TemplateResponse("base.html",
+    return templates.TemplateResponse("user.html",
                                       {"request": request, "user_list": user_list})
 
 
@@ -95,7 +100,7 @@ async def attendance_image(request: Request, id_worker: int = Form(...), start_d
     img_buf.close()
     base64_encoded_image = base64.b64encode(png).decode("utf-8")
     title = [user_list[id_worker][0], start_date.strftime("%d/%m/%y") + " - " + end_date.strftime("%d/%m/%y")]
-    return templates.TemplateResponse("base.html",
+    return templates.TemplateResponse("attendance.html",
                                       {"request": request,
                                        "user_list": user_list,
                                        "title": title,

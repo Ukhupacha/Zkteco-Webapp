@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block update %}
+<div class="row" >
+    <h2>Editar Trabajador</h2>
+    <form class="ui form" method="post">
+        <div class="field">
+            <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td><label>Trabajador</label></td>
+                    <td><select id="choices_dropdown" name="id_worker_update" style="width:200px">
+                        {% for user in user_list %}
+                        <option value={{user}}>{{user_list[user][0]}}</option>
+                        <!-- The choices are correctly displayed in the dropdown menu -->
+                        {% endfor %}
+                    </select></td>
+
+                </tr>
+                <tr>
+                    <td><label>Nuevo Nombre</label></td>
+                    <td><input type="text"  name="new_name" placeholder="Nuevo Nombre" style="width:200px"></td>
+                </tr>
+            </table>
+        </div>
+        <button class="ui red button" formaction="/update" type="submit">Actualizar trabajador</button>
+    </form>
+</div>
+{% endblock %}

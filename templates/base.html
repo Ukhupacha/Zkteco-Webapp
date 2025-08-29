@@ -40,88 +40,22 @@
 <body>
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">Control de Asistencias AGP</h1>
-        <div class="row">
-            <h2>Dispositivo Zkteco</h2>
-            <form class="ui form" method="post" >
-                <div class="field">
-                    <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
-                        <tr>
-                            <td><label>Dirección IP</label></td>
-                            <td><input type="text" name="ip_zkteco" placeholder="10.1.1.40" style="width:200px"></td>
-                            <td><label>Puerto</label></td>
-                            <td><input type="text" name="port_zkteco" placeholder="4370" style="width:250px"></td>
-                        </tr>
-                    </table>
-                </div>
-                <button class="ui blue button" formaction="/connect" type="submit">Conectar Zkteco</button>
-            </form>
-        </div>
-        <hr>
-        <div class="row" >
-            <h2>Reporte de asistencias</h2>
-            <form class="ui form" method="post">
-                <div class="field">
-                    <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
-                        <tr>
-                            <td><label>Trabajador</label></td>
-                            <td><select id="choices_dropdown" name="id_worker" style="width:200px">
-                                {% for user in user_list %}
-                                <option value={{user}}>{{user_list[user][0]}}</option>
-                                <!-- The choices are correctly displayed in the dropdown menu -->
-                                {% endfor %}
-                            </select></td>
 
-                        </tr>
-                        <tr>
-                            <td><label>Fecha inicial</label></td>
-                            <td><input type="date"  name="start_date" style="width:200px"></td>
-                        </tr>
-                        <tr>
-                            <td><label>Fecha final</label></td>
-                            <td><input type="date"  name="end_date" style="width:200px"></td>
-                        </tr>
-                    </table>
-                </div>
-                <button class="ui blue button" formaction="/attendance" type="submit">Calcular asistencias</button>
-                <button class="ui red button" formaction="/pdf" type="submit">Generar Reporte</button>
-            </form>
-        </div>
+        {% block connect %}
+            {# template inserted here #}
+        {% endblock %}  
 
         <hr>
+        
+        {% block attendance %}
+            {# template insterted here #}
+        {% endblock %}
 
-        {% if img %}
-        <h2 class="ui center aligned header">{{title[0]}}: {{title[1]}}</h2>
-            <center>
-                <img src="data:image/png;base64,{{ img | safe }}"/>
-            </center>
-        {% endif %}
+        {% block update %}
+            {# template insterted here #}
+        {% endblock %}
 
-        <hr>
 
-        <div class="row" >
-            <h2>Editar Trabajador</h2>
-            <form class="ui form" method="post">
-                <div class="field">
-                    <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
-                        <tr>
-                            <td><label>Trabajador</label></td>
-                            <td><select id="choices_dropdown" name="id_worker_update" style="width:200px">
-                                {% for user in user_list %}
-                                <option value={{user}}>{{user_list[user][0]}}</option>
-                                <!-- The choices are correctly displayed in the dropdown menu -->
-                                {% endfor %}
-                            </select></td>
-
-                        </tr>
-                        <tr>
-                            <td><label>Nuevo Nombre</label></td>
-                            <td><input type="text"  name="new_name" placeholder="Nuevo Nombre" style="width:200px"></td>
-                        </tr>
-                    </table>
-                </div>
-                <button class="ui red button" formaction="/update" type="submit">Actualizar trabajador</button>
-            </form>
-        </div>
 
     </div>
 </body>
