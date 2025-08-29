@@ -70,7 +70,6 @@ async def update(request: Request, name: str = Form(...)):
 
     global zk
     global user_list
-    user = user_list[id_worker]
     zk.set_user(name=name)
     user_list = get_user_list(zk)
     return templates.TemplateResponse("update.html",
